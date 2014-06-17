@@ -1,0 +1,8 @@
+{
+  "name": "market",
+  "description": "market description",
+  "author": "We are authors <we@whatever.com>",
+  "dependencies": {
+    "underscore": "1.x"
+  }
+}
