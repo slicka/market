@@ -2,7 +2,23 @@
   "name": "market",
   "description": "market description",
   "author": "We are authors <we@whatever.com>",
-  "dependencies": {
-    "underscore": "1.x"
+  "devDependencies": {
+    "underscore": "1.x",
+    "grunt": "~0.4.5",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-jasmine": "~0.6.5",
+    "karma": "~0.12.16",
+    "grunt-karma": "~0.8.3",
+    "karma-jasmine": "~0.1.5",
+    "karma-phantomjs-launcher": "~0.1.4",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "grunt-contrib-jst": "~0.5.1",
+    "grunt-contrib-sass": "~0.6.0"
   }
 }
