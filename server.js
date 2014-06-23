@@ -1,34 +1,6 @@
 var http = require('http'),
     url  = require('url'),
-    fs   = require('fs'),
      _   = require('underscore');
- 
-// serving static files
-function getStaticFile(filePath, res){
-
-  fs.exists(filePath, function(exists){
-
-    if(exists){
-      fs.readFile(filePath, function(err, contents){
-        if(!err){
-          res.end(contents);
-        } else {
-          console.log(err);
-        };
-      });
-    } else {
-      //serve-up 404 page
-      fs.readFile(__dirname + '/app/404.html', function(err, contents){
-        if(!err){
-          res.writeHead(404, {'Content-Type': 'text/html'});
-          res.end(contents);
-        } else {
-          console.log(err);
-        }
-      });
-    }
-  });
-}
 
 // returns JSON data
 function getMarketData(query, res) {
@@ -70,7 +42,11 @@ function getMarketData(query, res) {
 
       // if we get just [] back, something is wrong with request
       // in future when we validateQuery() we shuld return 500 instead of 400, something is wrong on our end
-      data.length < 3 ? res.writeHead(400, headers) : res.writeHead(200, headers);
+      if (data.length < 3) {
+        res.writeHead(400, headers);
+      } else {
+        res.writeHead(200, headers);
+      }
       
       res.write(data);
       res.end();
@@ -84,23 +60,10 @@ function getMarketData(query, res) {
   req.end();
 }
 
-// handle HTTP requests
-function requestHandler(req, res) {
-  var uri         = url.parse(req.url),
-      fileName    = uri.pathname.substring(1) || 'index.html',
-      localFolder = __dirname + '/app/';
-
-  switch(uri.pathname) {
-    case '/api':
-      getMarketData(uri.search, res);
-      break;
-    default:
-      getStaticFile((localFolder + fileName), res);
-      break;
-  }
-}
-
-http.createServer(requestHandler)
+http.createServer(function (req, res) {
+  var uri = url.parse(req.url);
+  getMarketData(uri.search, res);
+})
 .listen(3000);
 
 console.log('Server running at http://localhost:3000/');
