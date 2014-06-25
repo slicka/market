@@ -1,0 +1,29 @@
+{
+  "name": "Market",
+  "version": "0.0.1",
+  "homepage": "https://github.com/slicka/market",
+  "authors": [
+    "Ante Lucic <ante.lucic450@gmail.com>",
+    "Patty Delgado <patty.a.delgado@gmail.com>"
+  ],
+  "description": "Patty will add description",
+  "keywords": [
+    "Patty",
+    "will",
+    "add",
+    "keywords"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/bower_components",
+    "spec"
+  ],
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "foundation": ">=5.2.3",
+    "modernizr": "~2.8.2"
+  }
+}
