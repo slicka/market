@@ -1,4 +1,5 @@
-(function(){
-
-  console.log('If something is here, it doesnt break?');
-})();
+describe("On initializing the app", function() {
+  it("renders a map", function() {
+    
+  });
+});
