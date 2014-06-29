@@ -8,7 +8,6 @@ var config = require('./config');
 module.exports = App;
 
 function App() {
-
 };
 
 _.extend(App.prototype, {
@@ -18,23 +17,24 @@ _.extend(App.prototype, {
   currentLong    : null,
   currentTime    : new Date(),
   currentBorough : null,
-  test: function () {
+
+  test: function() {
     console.log('calling test function');
   },
 
-  getLocation: function(){
-	   //http://diveintohtml5.info/geolocation.html
-	   navigator.geolocation.getCurrentPosition(this.calculateBorough, this.errorLocation);
+  getLocation: function() {
+    //http://diveintohtml5.info/geolocation.html
+	  navigator.geolocation.getCurrentPosition(this.calculateBorough.bind(this), this.errorLocation);
 	 },
 
-	calculateBorough: function(position){
-	  this.currentLat = position.coords.latitude;
+	calculateBorough: function(position) {
+	  this.currentLat  = position.coords.latitude;
     this.currentLong = position.coords.longitude;
 
     $.ajax({
       url: this.defaults.locationEndpoint,
       type: 'GET',
-      data: {lat: this.currentLat, lng: this.currentLong, api-key: this.defaults.nytimesApiKey}
+      data: {'lat': this.currentLat, 'lng': this.currentLong, 'api-key': this.defaults.nytimesApiKey}
     }).done(function(data){
       if(data.results.length > 0){
         for(i = 0; i < data.results.length; i++){
@@ -44,11 +44,9 @@ _.extend(App.prototype, {
         }
       }
     });
-
-
 	},
 
-	errorLocation: function(err){
+	errorLocation: function(err) {
 		if (err.code == 1) {
 			//user said no!
 			alert('Damn girl, we need that location!');
@@ -56,11 +54,11 @@ _.extend(App.prototype, {
 		}
 	},
 
-	renderMap: function(mapId){
+	renderMap: function(mapId) {
 
 	},
 
-	getClosestMarkets: function(){
+	getClosestMarkets: function() {
 
 	}
 
