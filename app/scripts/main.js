@@ -6,5 +6,5 @@ var App = require('./app'),
 _app = new App();
 
 $(function init(){
-  _app.test();
+  _app.getLocation();
 });
