@@ -6,5 +6,7 @@ var App = require('./app'),
 _app = new App();
 
 $(function init(){
-  _app.getLocation();
+  //_app.getLocation();
+
+  _app.renderMap(_app.defaults.mapID);
 });
