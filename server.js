@@ -17,47 +17,62 @@ function getBoroughId(borough) {
 // returns borough id and link to borough data
 function getClosestBorough(res, location) {
   // TODO: Validate location
-  // location should fit ?lat=xx&lng=yy
+  // location should fit ?latlng=yy,xx
   if (!location) {
     // return status 404 and error message
     return status[404](res, 'Missing location params!');
   }
 
-  var result        = [],
-      payload       = '',
-      nytimesApiKey ='&api-key=26ab66631018765b78c293231291dfd9:14:52216455';
+  var result  = {},
+      payload = '';
 
-  var nytReq = http.get('http://api.nytimes.com/svc/politics/v2/districts.json' + location + nytimesApiKey, 
-    function(ntyRes) {
-      ntyRes.setEncoding('utf8');
+  // http.get('http://maps.googleapis.com/maps/api/geocode/json' + decodeURIComponent('?latlng=40.7171966,-73.9492171'), // Brooklyn
+  // http.get('http://maps.googleapis.com/maps/api/geocode/json' + decodeURIComponent('?latlng=40.5763,-74.1448'),  // Staten Island
+  http.get('http://maps.googleapis.com/maps/api/geocode/json' + decodeURIComponent(location),
+    function(geoResponse) {
+      geoResponse.setEncoding('utf8');
 
-      ntyRes.on('data', function (chunk) {
+      geoResponse.on('data', function (chunk) {
         payload += chunk;
       });
 
-      ntyRes.on('end', function() {
+      geoResponse.on('end', function() {
+        var data      = JSON.parse(payload),
+            response  = {},
+            boroughId = -1;
+
         try {
-          _.each(JSON.parse(payload).results, function(r) {
-            var data = {};
-            if ('Borough' === r.level) {
-              data.id = getBoroughId(r.district);
+          if (data.status === 'OK') {
+            _.each(data.results[0].address_components, function(piece) {
+              if (piece.types[0] === 'sublocality') {
+                boroughId = getBoroughId(piece.short_name);
 
-              if (data.id === -1) {
-                return status[500](res);
+                response = {
+                  'id': boroughId,
+                  'path': '?borough=' + boroughId
+                };
+
+                result.result = response;
+                result.status = 200;
               }
-
-              data.link = '?borough=' + data.id;
-              result.push(data);
-            }
-           });
+            });
+          } else {
+            return status[404](res, 'Bad request, no results to show!')
+          }
         } catch(err) {
           return status[500](res, {error: err});
+        }
+
+        // response for poor Croatians
+        if (boroughId === -1) {
+          return status[500](res, 'Location not supported!');
         }
 
         data = JSON.stringify(result);
 
         res.writeHead(200, {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
           'Content-Length': data.length
         });
 
@@ -82,14 +97,14 @@ function getMarketData(res, query) {
       result  = [];
 
   http.get('http://www.grownyc.org/greenmarket.php' + query,
-    function(growRes) {
-      growRes.setEncoding('utf8');
+    function(marketResponse) {
+      marketResponse.setEncoding('utf8');
 
-      growRes.on('data', function (chunk) {
+      marketResponse.on('data', function (chunk) {
         payload += chunk;
       });
 
-      growRes.on('end', function() {
+      marketResponse.on('end', function() {
         try {
            _.each(JSON.parse(payload).sites, function(market) {
             result.push(_.omit(market,'infoBubbleHTML'));
@@ -108,6 +123,7 @@ function getMarketData(res, query) {
 
         res.writeHead(200, {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
           'Content-Length': data.length
         });
 
