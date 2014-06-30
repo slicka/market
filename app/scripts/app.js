@@ -11,11 +11,11 @@ function App() {
 };
 
 _.extend(App.prototype, {
-  defaults: 			 config,
-  closetsMarkets:  null,
+  defaults       : config,
   currentLat     : null,
-  currentLong    : null,
+  currentLng     : null,
   currentTime    : new Date(),
+  closetsMarkets : null,
   currentBorough : null,
 
   test: function() {
@@ -28,22 +28,17 @@ _.extend(App.prototype, {
 	 },
 
 	calculateBorough: function(position) {
-	  this.currentLat  = position.coords.latitude;
-    this.currentLong = position.coords.longitude;
+	  this.currentLat = position.coords.latitude;
+    this.currentLng = position.coords.longitude;
 
-    $.ajax({
-      url: this.defaults.locationEndpoint,
-      type: 'GET',
-      data: {'lat': this.currentLat, 'lng': this.currentLong, 'api-key': this.defaults.nytimesApiKey}
-    }).done(function(data){
-      if(data.results.length > 0){
-        for(i = 0; i < data.results.length; i++){
-          if(data.results[i].level == 'Borough'){
-            this.currentBorough = data.results[i].district;
-          }
-        }
-      }
-    });
+    $.get(this.defaults.locationEndpoint, {'latlng': this.currentLat + ',' + this.currentLng}, function(data) {
+        console.log(data);
+    }).done(function(data) {
+        console.log(data);
+      })
+      .fail(function(data) {
+        console.log(JSON.parse(data.responseText));
+      });
 	},
 
 	errorLocation: function(err) {
