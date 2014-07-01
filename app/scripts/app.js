@@ -39,7 +39,7 @@ _.extend(App.prototype, {
     $.get(this.defaults.locationEndpoint, {'latlng': this.currentLat + ',' + this.currentLng}, function(data) {
         console.log(data);
     }).done(function(data) {
-        console.log(data);
+        currentBorough = data.result.id
       })
       .fail(function(data) {
         console.log(JSON.parse(data.responseText));
@@ -85,7 +85,7 @@ _.extend(App.prototype, {
 
 		this.map = new Map();
 
-		this.map.renderFromAPIResponse(mapID, this.closestMarkets)
+		this.map.renderFromAPIResponse(mapID, this.closestMarkets);
 	}
   
 });

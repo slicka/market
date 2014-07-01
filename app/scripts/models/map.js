@@ -6,22 +6,24 @@ module.exports = Map;
 
 function Map() {
 	this.markets = [];
-	this.divID = '#map';
+	this.divID = 'map';
 
-	this.renderFromAPIResponse = function(mapID, markets) {
-		var ln;
-		//get all my markets and make "markets" out of them
-		//set up the mapbox map with the points
-		//append it to the page
+	this.renderFromAPIResponse = function(mapID, marketsData) {
+    var map, featureLayer;
+    //generate markets
+    this.markets = _.map(marketsData, function(marketModel) {
+      return Market.formatGeoJSON(marketModel);
+    }, this);
 
-		ln = markets.length;
-		for(var i = 0; i < ln; i++){
-			markets[i] = new Market();
+    //set up the mapbox map with the points
+    map = L.mapbox.map(this.divID, mapID);
+    featureLayer = L.mapbox.featureLayer(this.markets).addTo(map);
 
-		}
+    featureLayer.on('ready', function() {
+      map.fitBounds(featureLayer.getBounds());
+    });
 
-
-
+    //TODO: add click events to the points
 	}
 
 }
