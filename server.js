@@ -124,7 +124,7 @@ function getMarketData(res, query) {
         res.writeHead(200, {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'Content-Length': data.length
+          'Content-Length': Buffer.byteLength(data)
         });
 
         res.end(data);
