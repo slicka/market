@@ -3,7 +3,8 @@
 
 window.uA = navigator.userAgent || '';
 
-var config = require('./config');
+var config = require('./config'),
+    Map 	 = require('./models/map');
 
 module.exports = App;
 
@@ -11,12 +12,16 @@ function App() {
 };
 
 _.extend(App.prototype, {
-  defaults       : config,
+  defaults: 			 config,
+  closestMarkets : null,
   currentLat     : null,
   currentLng     : null,
   currentTime    : new Date(),
   closetsMarkets : null,
   currentBorough : null,
+  currentProduct : null,
+  currentDaysOpen: null,
+  map 					 : null,
 
   test: function() {
     console.log('calling test function');
@@ -24,7 +29,7 @@ _.extend(App.prototype, {
 
   getLocation: function() {
     //http://diveintohtml5.info/geolocation.html
-	  navigator.geolocation.getCurrentPosition(this.calculateBorough.bind(this), this.errorLocation);
+	  navigator.geolocation.getCurrentPosition(this.calculateBorough.bind(this), this.errorLocation.bind(this));
 	 },
 
 	calculateBorough: function(position) {
@@ -34,7 +39,7 @@ _.extend(App.prototype, {
     $.get(this.defaults.locationEndpoint, {'latlng': this.currentLat + ',' + this.currentLng}, function(data) {
         console.log(data);
     }).done(function(data) {
-        console.log(data);
+        currentBorough = data.result.id
       })
       .fail(function(data) {
         console.log(JSON.parse(data.responseText));
@@ -49,14 +54,39 @@ _.extend(App.prototype, {
 		}
 	},
 
-	renderMap: function(mapId) {
+	renderMap: function(mapID) {
+		var data = {
+			daysopen: this.currentTime.getDay()
+		}, markets = [];
 
-	},
+		if(typeof this.currentDaysOpen !== 'undefined' && this.currentDaysOpen !== null) {
+			data.daysopen = this.currentDaysOpen;
+		}
 
-	getClosestMarkets: function() {
+		if(typeof this.currentBorough !== 'undefined' && this.currentBorough !== null) {
+			data.borough = this.currentBorough;
+		}
 
+		if(typeof this.currentProduct !== 'undefined' && this.currentProduct !== null) {
+			data.products = this.currentProduct;
+		}
+
+		$.ajax({
+			url: this.defaults.apiEndpoint,
+			type: 'GET',
+			data: data,
+			async: false
+		}).done(function(d){
+			//TODO: add error handling
+			markets = d;
+		});
+
+		this.closestMarkets = markets;
+
+		this.map = new Map();
+
+		this.map.renderFromAPIResponse(mapID, this.closestMarkets);
 	}
-
   
 });
  
