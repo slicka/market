@@ -93,6 +93,10 @@ _.extend(App.prototype, {
     this.map = new Map();
 
     this.map.renderFromAPIResponse(mapID, this.closestMarkets);
+  },
+
+  template: function (name) {
+    return global.JST["app/templates/" + name + ".html"];
   }
   
 });

@@ -32,6 +32,10 @@ module.exports = function(grunt) {
       gruntfile: {
         files: ['Gruntfile.js']
       },
+      templates: {
+        files: 'app/templates/**/*.html',
+        tasks: ['jst', 'concat:dev'],
+      },
       compass: {
         files: ['<%= yeoman.app %>/scss/{,*/}*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
@@ -42,7 +46,7 @@ module.exports = function(grunt) {
       },
       browserify: {
         files: ['<%= yeoman.app %>/scripts/**/*.js', 'test/{,*/}*.js'],
-        tasks: ['browserify:dev', 'concat:dev']
+        tasks: ['browserify:dev', 'jst' ,'concat:dev']
       },
       mocha: {
         files: ['test/{,*/}*.js'],
@@ -58,6 +62,13 @@ module.exports = function(grunt) {
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
         ]
+      }
+    },
+    jst: {
+      compile: {
+        files: {
+          ".tmp/scripts/templates.js": ["app/templates/**/*.html"]
+        }
       }
     },
     connect: {
@@ -202,7 +213,7 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       dev: {
-        src: ['.tmp/scripts/vendor.js', '.tmp/scripts/main.js'],
+        src: ['.tmp/scripts/vendor.js', '.tmp/scripts/main.js', '.tmp/scripts/templates.js'],
         dest: '.tmp/scripts/app.js'
       },
       dist: {
@@ -380,7 +391,8 @@ module.exports = function(grunt) {
       'concat:dev',
       'autoprefixer',
       'connect:livereload',
-      'watch'
+      'watch',
+      'jst'
     ]);
   });
 

@@ -12,6 +12,7 @@ function Map() {
 
   this.renderFromAPIResponse = function(mapID, marketsData) {
     var map, currentLayer;
+
     //generate markets
     this.markets = _.map(marketsData, function(marketModel) {
       return Market.formatGeoJSON(marketModel);
@@ -50,7 +51,6 @@ function Map() {
       marketInfo.render();
       //TODO: Ante! figure out what a marketView is and create it!
     });
-  }
   //TODO: add click events to the points
   }
 }

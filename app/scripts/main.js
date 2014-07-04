@@ -3,7 +3,7 @@
 var App = require('./app'),
     _app;
 
-_app = new App();
+_app = global.app = module.exports = new App();
 
 $(function init(){
   //_app.getLocation();
