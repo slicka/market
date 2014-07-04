@@ -1,13 +1,13 @@
 'use strict';
 
 var Market = require('./market'),
-    marketView = require('../views/market.js');
+    MarketView = require('../views/market.js');
 
 module.exports = Map;
 
 function Map() {
+  this.divID   = 'map';
   this.markets = [];
-  this.divID = 'map';
   this.featuredLater = null;
 
   this.renderFromAPIResponse = function(mapID, marketsData) {
@@ -46,10 +46,11 @@ function Map() {
     
     layerName.on('click',function(e) {
       e.layer.closePopup();
-      marketInfo = new marketView(e.layer.feature);
+      marketInfo = new MarketView(e.layer.feature);
       marketInfo.render();
       //TODO: Ante! figure out what a marketView is and create it!
     });
   }
-
+  //TODO: add click events to the points
+  }
 }
