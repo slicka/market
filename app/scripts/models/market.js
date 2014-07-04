@@ -3,7 +3,7 @@
 module.exports = Market;
 
 function Market(attributes){
-	_.extend(this, attributes);	
+  _.extend(this, attributes);
 }
 
 _.extend(Market, {
@@ -20,25 +20,24 @@ _.extend(Market, {
         ]
       },
       properties: {
-        'products': attributes.products,
-        'daysopen': attributes.daysopen,
-        'borough': attributes.borough,
-        'ebt': attributes.ebt,
-        'textile': attributes.textile,
-        'compost': attributes.compost,
-        'battery': attributes.battery,
-        'name': attributes.name,
-        'description': attributes.description,
-        'yearround': attributes.yearround,
-        'timesopen': attributes.timesopen,
-        'dateopen': attributes.dateopen,
-        'dateclose': attributes.dateclose,
-        'street': attributes.street,
-        'url': attributes.url,
-        'product_days': attributes.product_days,
-        'farmer_days': attributes.farmer_days,
-        'marker-size': 'medium',
+        'url'         : attributes.url,
+        'ebt'         : attributes.ebt,
+        'name'        : attributes.name,
+        'street'      : attributes.street,
+        'borough'     : attributes.borough,
+        'battery'     : attributes.battery,
+        'compost'     : attributes.compost,
+        'textile'     : attributes.textile,
+        'daysopen'    : attributes.daysopen,
+        'products'    : attributes.products,
+        'dateclose'   : attributes.dateclose,
+        'timesopen'   : attributes.timesopen,
+        'yearround'   : attributes.yearround,
+        'description' : attributes.description,
+        'farmer_days' : attributes.farmer_days,
+        'marker-size' : 'medium',
         'marker-color': '#e5938e',
+        'product_days': attributes.product_days,
       }
     }));
   }

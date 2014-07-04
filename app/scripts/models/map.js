@@ -5,25 +5,26 @@ var Market = require('./market');
 module.exports = Map;
 
 function Map() {
-	this.markets = [];
-	this.divID = 'map';
 
-	this.renderFromAPIResponse = function(mapID, marketsData) {
-    var map, featureLayer;
-    //generate markets
-    this.markets = _.map(marketsData, function(marketModel) {
-      return Market.formatGeoJSON(marketModel);
-    }, this);
+  this.markets = [];
+  this.divID   = 'map';
 
-    //set up the mapbox map with the points
-    map = L.mapbox.map(this.divID, mapID);
-    featureLayer = L.mapbox.featureLayer(this.markets).addTo(map);
+  this.renderFromAPIResponse = function(mapID, marketsData) {
+  var map, featureLayer;
+  
+  //generate markets
+  this.markets = _.map(marketsData, function(marketModel) {
+    return Market.formatGeoJSON(marketModel);
+  }, this);
 
-    featureLayer.on('ready', function() {
-      map.fitBounds(featureLayer.getBounds());
-    });
+  //set up the mapbox map with the points
+  map = L.mapbox.map(this.divID, mapID);
+  featureLayer = L.mapbox.featureLayer(this.markets).addTo(map);
 
-    //TODO: add click events to the points
-	}
+  featureLayer.on('ready', function() {
+    map.fitBounds(featureLayer.getBounds());
+  });
 
+  //TODO: add click events to the points
+  }
 }
