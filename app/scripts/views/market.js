@@ -12,5 +12,7 @@ _.extend(Market.prototype, {
     this.$el.append(global.app.template('market')({
       market: this.market
     }));
+
+    $('body').append(this.$el);
   },
 });

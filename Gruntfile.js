@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         files: ['Gruntfile.js']
       },
       templates: {
-        files: 'app/templates/**/*.html',
+        files: '<%= yeoman.app %>/templates/**/*.html',
         tasks: ['jst', 'concat:dev'],
       },
       compass: {
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
     jst: {
       compile: {
         files: {
-          ".tmp/scripts/templates.js": ["app/templates/**/*.html"]
+          ".tmp/scripts/templates.js": ["app/templates/*.html"]
         }
       }
     },
@@ -213,7 +213,7 @@ module.exports = function(grunt) {
         banner: '<%= banner %>'
       },
       dev: {
-        src: ['.tmp/scripts/vendor.js', '.tmp/scripts/main.js', '.tmp/scripts/templates.js'],
+        src: ['.tmp/scripts/templates.js', '.tmp/scripts/vendor.js', '.tmp/scripts/main.js'],
         dest: '.tmp/scripts/app.js'
       },
       dist: {
@@ -387,12 +387,12 @@ module.exports = function(grunt) {
 
     grunt.task.run([
       'clean:server',
+      'jst',
       'concurrent:server',
       'concat:dev',
       'autoprefixer',
       'connect:livereload',
-      'watch',
-      'jst'
+      'watch'
     ]);
   });
 
