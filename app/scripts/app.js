@@ -73,7 +73,9 @@ _.extend(App.prototype, {
         currentBorough = data.result.id
       })
       .fail(function(data) {
-        console.log(JSON.parse(data.responseText));
+        if (data.responseText) {
+          console.log(JSON.parse(data.responseText));
+        }
       });
   },
 
@@ -91,7 +93,6 @@ _.extend(App.prototype, {
     this.closestMarkets = this.getMarkets(requestData);
 
     this.map = new Map();
-
     this.map.renderFromAPIResponse(mapID, this.closestMarkets);
   },
 
