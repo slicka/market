@@ -1,29 +1,61 @@
 'use strict';
 
-var Market = require('./market');
+var Market     = require('./market'),
+    MarketView = require('../views/market.js');
 
 module.exports = Map;
 
-function Map() {
-	this.markets = [];
-	this.divID = 'map';
+function Map(mapContainerID) {
+  this.markets        = [];
+  this.featuredLater  = null;
+  this.mapContainerID = mapContainerID || 'map';
+}
 
-	this.renderFromAPIResponse = function(mapID, marketsData) {
-    var map, featureLayer;
+_.extend(Map.prototype, {
+  renderFromAPIResponse: function(mapID, marketsData) {
+    var map, currentLayer;
+
     //generate markets
     this.markets = _.map(marketsData, function(marketModel) {
       return Market.formatGeoJSON(marketModel);
     }, this);
 
     //set up the mapbox map with the points
-    map = L.mapbox.map(this.divID, mapID);
-    featureLayer = L.mapbox.featureLayer(this.markets).addTo(map);
+    map = L.mapbox.map(this.mapContainerID, mapID, { minZoom: 11, maxZoom: 17 });
 
-    featureLayer.on('ready', function() {
-      map.fitBounds(featureLayer.getBounds());
+    currentLayer = this.createLayer(map, this.markets);
+
+    currentLayer.on('ready', function() {
+      map.fitBounds(currentLayer.getBounds());
     });
 
-    //TODO: add click events to the points
-	}
+    this.addEvents(currentLayer);
+  },
 
-}
+  createLayer: function(mapObject, marketsGEOJson) {
+    var marketPoints, featuredLayer;
+
+    featuredLayer = L.mapbox.featureLayer(marketsGEOJson).addTo(mapObject);
+
+    return featuredLayer;
+  },
+
+  destroyLayer: function(mapObject, layerName) {
+    if (mapObject.hasLayer(layerName)) {
+      mapObject.removeLayer(layerName);
+    }
+  },
+
+  addEvents: function(layerName) {
+    var marketInfo;
+
+    layerName.on('click',function(e) {
+      e.layer.closePopup();
+      marketInfo = new MarketView(e.layer.feature.properties);
+      marketInfo.render();
+    });
+  //TODO: add click events to the points
+  }
+});
+
+

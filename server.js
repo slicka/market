@@ -117,6 +117,8 @@ function getMarketData(res, query) {
 
         // if we get just [] back, something is wrong with request
         // in future when we validateQuery() we shuld return 500 instead of 400
+        // TODO: shold not return 400 for valid request that return no data
+        // ex: http://www.grownyc.org/greenmarket.php?products=2&borough=1&daysopen=3
         if (data.length < 3) {
           return status[400](res);
         }
