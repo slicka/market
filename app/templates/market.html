@@ -11,13 +11,15 @@
   <div class="medium-4 columns">
     <h6>Time open:</h6>
     <span class="info-text"><%= market.timesopen %></span>
-  </div>
-  <div class="medium-4 columns">
     <h6>Opened on:</h6>
     <span class="info-text"><%= market.daysopen %></span>
+  </div>
+  <div class="medium-4 columns">
     <%if (market.yearround !== '0') { %>
       <div class="info-text">The market is open year round</div>
     <% } else { %>
+      <h6>Open date:</h6>
+      <span class="info-text"><%= market.dateopen %></span>
       <h6>Close date:</h6>
       <span class="info-text"><%= market.dateclose %></span>
      <% } %>
@@ -39,6 +41,3 @@
     <li><%= product %></li>
   <% }) %>
 </ul>
-
-<p>Farmer days: <%= market.farmer_days %></p>
-<p>Product days: <%= market.product_days %></p>

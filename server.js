@@ -107,7 +107,7 @@ function getMarketData(res, query) {
       marketResponse.on('end', function() {
         try {
            _.each(JSON.parse(payload).sites, function(market) {
-            result.push(_.omit(market,'infoBubbleHTML'));
+            result.push(_.omit(market,['infoBubbleHTML','product_days','farmer_days', 'url']));
           });
         } catch (err) {
           return status[500](res, { error: err });

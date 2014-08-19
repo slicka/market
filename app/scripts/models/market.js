@@ -30,6 +30,7 @@ _.extend(Market, {
         'textile'     : attributes.textile,
         'daysopen'    : this.getDaysOpen(attributes.daysopen),
         'products'    : attributes.products,
+        'dateopen'    : this.formatDate(attributes.dateopen),
         'dateclose'   : this.formatDate(attributes.dateclose),
         'timesopen'   : attributes.timesopen,
         'yearround'   : attributes.yearround,
