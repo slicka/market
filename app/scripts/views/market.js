@@ -9,7 +9,7 @@ function Market(model) {
   this.model = model;
 
   _.bindAll(this, 'remove');
-  $el.on('click', '.close-market-view', this.remove);
+  $el.on('click', '.back-button', this.remove);
 }
 
 _.extend(Market.prototype, {
