@@ -7,7 +7,7 @@ function Market(attributes){
 }
 
 _.extend(Market, {
-  formatGeoJSON: function formatGeoJSON(attributes) {
+  formatGeoJSON: function(attributes) {
     attributes = attributes || {};
 
     return new Market(_.extend({}, {
@@ -28,17 +28,33 @@ _.extend(Market, {
         'battery'     : attributes.battery,
         'compost'     : attributes.compost,
         'textile'     : attributes.textile,
-        'daysopen'    : attributes.daysopen,
+        'daysopen'    : this.getDaysOpen(attributes.daysopen),
         'products'    : attributes.products,
-        'dateclose'   : attributes.dateclose,
+        'dateclose'   : this.formatDate(attributes.dateclose),
         'timesopen'   : attributes.timesopen,
         'yearround'   : attributes.yearround,
         'description' : attributes.description,
         'farmer_days' : attributes.farmer_days,
         'marker-size' : 'medium',
-        'marker-color': '#e5938e',
-        'product_days': attributes.product_days,
+        'marker-color': '#FA837B',
+        'product_days': attributes.product_days
       }
     }));
+  },
+
+  getDaysOpen: function(days) {
+    var i,
+        daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        result    = [];
+
+    for(i=0; i < days.length; i++) {
+      result.push(daysArray[days[i]]);
+    }
+
+    return result.join(', ');
+  },
+
+  formatDate: function(timestamp) {
+    return new Date(timestamp*1000).toString().slice(0,-19);
   }
 });

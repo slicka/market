@@ -1,4 +1,30 @@
-<nav>
-  <span class="close-market-view">Arrow</span>
-  <h2><%= market.name %></h2>
-</nav>
+<div class="row">
+  <nav>
+    <span class="back-button"> <span><</span> Back</span>
+  </nav>
+</div>
+<div class="row summary">
+  <h3 class="title"><%= market.name %></h3>
+  <span><%= market.borough %>, <%= market.street %></span>
+</div>
+<div class="row info">
+  <h6>Location</h6>
+  <span class="info-text"><%= market.description.split('[map]')[0] %></span>
+  <h6>Opened on:</h6>
+  <span class="info-text"><%= market.daysopen %></span>
+</div>
+<p>Ebt: <%= market.ebt %></p>
+<p>Battery: <%= market.battery %></p>
+<p>Compost: <%= market.compost %></p>
+<p>Textile: <%= market.textile %></p>
+<ul>
+  <% _.each(market.products, function(product){ %>
+    <li><%= product %></li>
+  <% }) %>
+</ul>
+<p>Date close: <%= market.dateclose %></p>
+<p>Times open: <%= market.timesopen %></p>
+<p>Year round: <%= market.yearround %></p>
+<p>Description: </p>
+<p>Farmer days: <%= market.farmer_days %></p>
+<p>Product days: <%= market.product_days %></p>
