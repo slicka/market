@@ -44,17 +44,22 @@ _.extend(Market, {
 
   getDaysOpen: function(days) {
     var i,
-        daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        daysArray = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'],
         result    = [];
 
     for(i=0; i < days.length; i++) {
       result.push(daysArray[days[i]]);
+
+      if (i > 0 && i == days.length-1) {
+        result[result.length-2] = result[result.length-2 ] + ' and ' + result[result.length-1];
+        result.splice(-1,1);
+      }
     }
 
     return result.join(', ');
   },
 
   formatDate: function(timestamp) {
-    return new Date(timestamp*1000).toString().slice(0,-19);
+    return new Date(timestamp*1000).toString().slice(0,-24);
   }
 });

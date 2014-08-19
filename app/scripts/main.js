@@ -5,8 +5,8 @@ var App = require('./app'),
 
 _app = global.app = module.exports = new App();
 
-$(function init(){
-  //_app.getLocation();
+$(function init() {
+  _app.getLocation();
 
   _app.renderMap(_app.defaults.mapID);
 
