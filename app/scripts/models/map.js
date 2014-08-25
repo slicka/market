@@ -54,7 +54,6 @@ _.extend(Map.prototype, {
       marketInfo = new MarketView(e.layer.feature.properties);
       marketInfo.render();
     });
-  //TODO: add click events to the points
   }
 });
 

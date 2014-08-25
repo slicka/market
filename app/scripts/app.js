@@ -9,6 +9,9 @@ var config = require('./config'),
 module.exports = App;
 
 function App() {
+  var $btn = $('#filters-btn');
+  _.bindAll(this, 'renderFiltersView');
+  $btn.on('click', this.renderFiltersView);
 };
 
 _.extend(App.prototype, {
@@ -35,10 +38,13 @@ _.extend(App.prototype, {
       type: 'GET',
       data: data,
       async: false
-    }).done(function(res){
-      //TODO: add error handling
+    }).success(function(res) {
       result = res;
-    });
+    }).fail(function(data) {
+      if (data.responseText) {
+        console.log(JSON.parse(data.responseText).error);
+      }
+    });;
 
     return result;
   },
@@ -74,7 +80,7 @@ _.extend(App.prototype, {
       })
       .fail(function(data) {
         if (data.responseText) {
-          console.log(JSON.parse(data.responseText));
+          console.log(JSON.parse(data.responseText).error.message);
         }
       });
   },
@@ -94,6 +100,10 @@ _.extend(App.prototype, {
 
     this.map = new Map();
     this.map.renderFromAPIResponse(mapID, this.closestMarkets);
+  },
+
+  renderFiltersView: function() {
+    console.log('render filters');
   },
 
   template: function (name) {
