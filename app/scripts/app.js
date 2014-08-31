@@ -3,13 +3,15 @@
 
 window.uA = navigator.userAgent || '';
 
-var config = require('./config'),
-    Map    = require('./models/map');
+var config      = require('./config'),
+    FiltersView = require('./views/filters'),
+    Map         = require('./models/map');
 
 module.exports = App;
 
 function App() {
   var $btn = $('#filters-btn');
+
   _.bindAll(this, 'renderFiltersView');
   $btn.on('click', this.renderFiltersView);
 };
@@ -23,7 +25,7 @@ _.extend(App.prototype, {
   currentBorough  : null,
   currentProduct  : null,
   currentDaysOpen : null,
-  closetsMarkets  : null,
+  closestMarkets  : null,
 
   getLocation: function() {
     //http://diveintohtml5.info/geolocation.html
@@ -103,7 +105,8 @@ _.extend(App.prototype, {
   },
 
   renderFiltersView: function() {
-    console.log('render filters');
+    this.filtersView = new FiltersView();
+    this.filtersView.render();
   },
 
   template: function (name) {

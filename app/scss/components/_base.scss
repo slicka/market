@@ -4,7 +4,7 @@
    TODO: Clean up CSS when we get real styles
    ========================================================================== */
 
-   header{
+  header {
     width: 100%;
     background-color: #f2e9d8;
     min-height: 50px;
@@ -14,22 +14,50 @@
     -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
     box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.2);
-   }
+  }
 
-   .title h1{
+  .title h1 {
     font-family: 'Lato', sans-serif;
     font-size: 1.5em;
     font-weight: 300;
     padding: 10px;
     color: #97ab5d;
     text-shadow: -1px 3px 5px rgba(150, 150, 150, 0.8);
-    span{
+    span {
       color: #fff;
     }
-   }
+  }
 
    #map{
     width: 100%;
     height: 100%;
     z-index: 1;
    }
+
+  .overlay {
+    top: 0;
+    z-index: 15;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    background: white;
+    position: absolute;
+
+    nav {
+      height: 25px;
+      padding: 0 20px;
+      margin-bottom: 5px;
+
+      .back-button {
+        color: #ff5a5f;
+        cursor: pointer;
+        line-height: 1.5rem;
+        span {
+          font-size: 23px;
+          margin-right: 2px;
+          font-weight: lighter;
+          display: inline-block;
+        }
+      }
+    }
+  }
