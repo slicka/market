@@ -49,8 +49,8 @@ _.extend(Filters.prototype, {
     $('#cd-dropdown').dropdown({
       gutter : 1,
       stack : false,
-      delay : 100,
-      slidingIn : 100
+      delay : 50,
+      slidingIn : 1
     });
   }
 });
